@@ -6,13 +6,17 @@ dotenv.config();
 
 const { Pool } = pg;
 
-const isSupabaseUrl = process.env.DATABASE_URL?.includes('supabase.co');
+const isRemoteDb =
+  process.env.DATABASE_URL &&
+  !process.env.DATABASE_URL.includes('localhost') &&
+  !process.env.DATABASE_URL.includes('127.0.0.1');
+
 const isProduction = process.env.NODE_ENV === 'production';
 
-// PostgreSQL pool via direct connection (supporting transactions & row locking)
+// PostgreSQL pool (supporting transactions & row locking)
 export const pool = new Pool({
   connectionString: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/postgres',
-  ssl: isProduction || isSupabaseUrl ? { rejectUnauthorized: false } : false,
+  ssl: isRemoteDb || isProduction ? { rejectUnauthorized: false } : false,
 });
 
 // Supabase client (initialized if credentials are provided)
