@@ -145,14 +145,14 @@ const LoginPage = () => {
               onClick={() => fillDemo('admin')}
               className="flex-1 py-2 px-3 text-xs font-medium rounded-xl bg-purple-50 text-purple-700 border border-purple-200 hover:bg-purple-100 transition-colors"
             >
-              Demo: Admin
+              Admin
             </button>
             <button
               type="button"
               onClick={() => fillDemo('employee')}
               className="flex-1 py-2 px-3 text-xs font-medium rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-100 transition-colors"
             >
-              Demo: Employee
+              Employee
             </button>
           </div>
 
