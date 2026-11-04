@@ -4,7 +4,7 @@
 
 A complete, full-stack **Employee Leave Management System** built for modern companies. It features a beautiful, responsive UI with separate dashboards for Employees and Administrators, real-time leave tracking, approval workflows, and comprehensive analytics — all backed by a Supabase PostgreSQL database.
 
-**Live Demo:** https://employee-leave-management-system-omega.vercel.app/ 
+**Live Demo:** [https://employee-leave-management-system-omega.vercel.app/]
 **GitHub Repository:** https://github.com/supriya-poojary/Employee-Leave-Management-System
 
 ---
