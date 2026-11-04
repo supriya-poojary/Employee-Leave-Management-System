@@ -45,6 +45,38 @@ app.get(['/api/health', '/health'], (req, res) => {
   });
 });
 
+app.get(['/api/test-db', '/test-db'], async (req, res) => {
+  try {
+    const hasDbUrl = !!process.env.DATABASE_URL;
+    const dbUrlPreview = process.env.DATABASE_URL
+      ? process.env.DATABASE_URL.substring(0, 15) + '... ' + (process.env.DATABASE_URL.includes('@') ? process.env.DATABASE_URL.split('@')[1] : '')
+      : 'NONE';
+    const hasJwt = !!process.env.JWT_SECRET;
+
+    const { query } = await import('../backend/src/config/database.js');
+    const result = await query('SELECT count(*) FROM users');
+
+    return res.status(200).json({
+      success: true,
+      hasDbUrl,
+      dbUrlPreview,
+      hasJwt,
+      userCount: result.rows[0].count,
+      message: 'Database connected successfully!',
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      hasDbUrl: !!process.env.DATABASE_URL,
+      hasJwt: !!process.env.JWT_SECRET,
+      errorName: err.name,
+      errorMessage: err.message,
+      errorCode: err.code,
+      errorStack: err.stack,
+    });
+  }
+});
+
 app.get(['/api', '/api/'], (req, res) => {
   res.status(200).json({
     name: 'Employee Leave Management System API',
