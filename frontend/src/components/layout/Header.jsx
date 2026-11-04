@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Bell, Search } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { motion } from 'framer-motion';
 
@@ -26,14 +26,9 @@ const Header = ({ onMobileMenuOpen, title, subtitle }) => {
           </div>
         </div>
 
-        {/* Right: Date, notifications, user */}
+        {/* Right: Date and user */}
         <div className="flex items-center gap-3">
           <span className="hidden md:block text-xs text-gray-400 font-medium">{currentDate}</span>
-          
-          <button className="relative p-2 rounded-xl hover:bg-gray-100 transition-colors text-gray-600">
-            <Bell className="w-5 h-5" />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
-          </button>
 
           <div className="flex items-center gap-2 pl-2 border-l border-gray-200">
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">

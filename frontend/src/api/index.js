@@ -77,6 +77,7 @@ export const leaveAPI = {
 // Dashboard APIs
 export const dashboardAPI = {
   getAdminStats: () => api.get('/dashboard/admin'),
+  getAdminAnalytics: () => api.get('/dashboard/admin/analytics'),
   getEmployeeStats: () => api.get('/dashboard/employee'),
 };
 

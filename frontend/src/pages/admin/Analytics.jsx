@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { dashboardAPI, employeeAPI } from '../../api';
+import { dashboardAPI } from '../../api';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   LineChart, Line, AreaChart, Area, PieChart, Pie, Cell, Legend
@@ -15,7 +15,7 @@ const Analytics = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const res = await dashboardAPI.getAdminStats();
+        const res = await dashboardAPI.getAdminAnalytics();
         setData(res.data.data);
       } catch (error) {
         console.error(error);
@@ -50,7 +50,7 @@ const Analytics = () => {
     { name: 'Approved', value: stats?.approvedCount || 0, color: '#10b981' },
     { name: 'Pending', value: stats?.pendingCount || 0, color: '#f59e0b' },
     { name: 'Rejected', value: stats?.rejectedCount || 0, color: '#ef4444' },
-  ];
+  ].filter((status) => status.value > 0);
 
   return (
     <div className="space-y-6">
@@ -69,7 +69,7 @@ const Analytics = () => {
             transition={{ delay: i * 0.1 }}
             className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6"
           >
-            <p className="text-3xl font-bold text-gray-900 mb-1">{value}</p>
+            <p className="text-3xl font-bold text-gray-900 mb-1">{value ?? 0}</p>
             <p className="text-sm text-gray-500">{label}</p>
           </motion.div>
         ))}
@@ -118,17 +118,21 @@ const Analytics = () => {
           className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6"
         >
           <h3 className="font-semibold text-gray-900 mb-5">Status Distribution</h3>
-          <ResponsiveContainer width="100%" height={240}>
-            <PieChart>
-              <Pie data={statusData} cx="50%" cy="50%" outerRadius={90} paddingAngle={4} dataKey="value">
-                {statusData.map((entry, i) => (
-                  <Cell key={i} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip contentStyle={{ borderRadius: 12, border: 'none', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }} />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
+          {statusData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={240}>
+              <PieChart>
+                <Pie data={statusData} cx="50%" cy="50%" outerRadius={90} paddingAngle={4} dataKey="value">
+                  {statusData.map((entry, i) => (
+                    <Cell key={i} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip contentStyle={{ borderRadius: 12, border: 'none', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }} />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="h-56 flex items-center justify-center text-gray-400 text-sm">No applications yet</div>
+          )}
         </motion.div>
 
         {/* Department breakdown */}
